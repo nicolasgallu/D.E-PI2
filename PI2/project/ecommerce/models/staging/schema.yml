@@ -1,0 +1,197 @@
+sources:
+  - name: raw
+    schema: public
+    tables:
+      - name: usuarios
+      - name: ordenes
+      - name: resenas_productos
+      - name: productos
+      - name: detalle_ordenes
+      - name: direcciones_envio
+      - name: historial_pagos
+      - name: categorias
+
+models:
+  - name: dim_time
+    description: "Tabla de fechas para desglosar la dimensión temporal"
+    columns:
+      - name: date_id
+        description: "Surrogate key de la fecha en formato YYYYMMDD"
+        tests:
+          - not_null
+          - unique
+      - name: full_date
+        tests:
+          - not_null
+      - name: day
+      - name: month
+      - name: year
+      - name: weekday
+      - name: is_weekend
+
+  - name: dim_users
+    description: "Dimensión de usuarios con dirección incluida"
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+          - unique
+      - name: email
+        tests:
+          - not_null
+      - name: name
+      - name: country
+      - name: state
+      - name: province
+      - name: city
+      - name: district
+      - name: street
+      - name: apartment
+      - name: zip_code
+
+  - name: dim_shipping_address
+    description: "Dimensión de direcciones de envío"
+    columns:
+      - name: shipping_address_id
+        tests:
+          - not_null
+          - unique
+      - name: user_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_users')
+              field: user_id
+      - name: country
+      - name: state
+      - name: province
+      - name: city
+      - name: district
+      - name: street
+      - name: apartment
+      - name: zip_code
+
+  - name: dim_products
+    description: "Dimensión de productos preparada para SCD Tipo 2"
+    columns:
+      - name: product_id
+        tests:
+          - not_null
+          - unique
+      - name: name
+        tests:
+          - not_null
+      - name: description
+      - name: price
+        tests:
+          - not_null
+      - name: stock
+      - name: category_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('int_products')
+              field: category_id
+      - name: category_name
+      - name: category_description
+
+  - name: fct_orders
+    description: "Tabla de hechos de órdenes a nivel de pedido"
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - unique
+      - name: user_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_users')
+              field: user_id
+      - name: date_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_time')
+              field: date_id
+      - name: total
+        tests:
+          - not_null
+      - name: order_status
+      - name: total_items
+      - name: payment_method_count
+      - name: payment_status
+      - name: shipping_address
+
+  - name: fct_order_detail
+    description: "Tabla de hechos de detalle de órdenes a nivel ítem"
+    columns:
+      - name: order_detail_id
+        tests:
+          - not_null
+          - unique
+      - name: order_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('fct_orders')
+              field: order_id
+      - name: product_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_products')
+              field: product_id
+      - name: category_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_products')
+              field: category_id
+      - name: product_name
+      - name: product_description
+      - name: category_name
+      - name: quantity
+        tests:
+          - not_null
+      - name: unit_price
+        tests:
+          - not_null
+      - name: subtotal
+      - name: date_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_time')
+              field: date_id
+
+  - name: fct_reviews
+    description: "Tabla de hechos de reseñas de productos"
+    columns:
+      - name: review_id
+        tests:
+          - not_null
+          - unique
+      - name: product_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_products')
+              field: product_id
+      - name: user_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_users')
+              field: user_id
+      - name: date_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_time')
+              field: date_id
+      - name: review_score
+      - name: comment
+      - name: reviewed_at
+        tests:
+          - not_null

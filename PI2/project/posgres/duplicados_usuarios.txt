@@ -1,0 +1,9 @@
+Total filas en usuarios: 1000
+
+Duplicados por DNI (0 filas):
+No se encontraron duplicados por DNI.
+
+
+Duplicados por Email (0 filas):
+No se encontraron duplicados por Email.
+

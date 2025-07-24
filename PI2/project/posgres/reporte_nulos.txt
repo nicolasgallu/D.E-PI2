@@ -1,0 +1,103 @@
+--- Tabla: usuarios ---
+Total filas: 1000
+Nulos por columna:
+  id: 0
+  nombre: 0
+  apellido: 0
+  dni: 0
+  email: 0
+  contrasena: 0
+
+--- Tabla: carrito ---
+Total filas: 5000
+Nulos por columna:
+  id: 0
+  usuario_id: 0
+  producto_id: 0
+  cantidad: 0
+  fecha_agregado: 0
+
+--- Tabla: detalle_ordenes ---
+Total filas: 10000
+Nulos por columna:
+  id: 0
+  orden_id: 0
+  producto_id: 0
+  cantidad: 0
+  precio_unitario: 0
+
+--- Tabla: direcciones_envio ---
+Total filas: 1000
+Nulos por columna:
+  id: 0
+  usuario_id: 0
+  calle: 0
+  ciudad: 0
+  departamento: 0
+  provincia: 0
+  distrito: 0
+  estado: 0
+  codigo_postal: 0
+  pais: 0
+
+--- Tabla: historial_pagos ---
+Total filas: 10000
+Nulos por columna:
+  id: 0
+  orden_id: 0
+  metodo_pago_id: 0
+  monto: 0
+  fecha_pago: 0
+  estado_pago: 0
+
+--- Tabla: metodos_pago ---
+Total filas: 0
+Nulos por columna:
+  id: 0
+  nombre: 0
+  descripcion: 0
+
+--- Tabla: ordenes ---
+Total filas: 10000
+Nulos por columna:
+  id: 0
+  usuario_id: 0
+  fecha_orden: 0
+  total: 0
+  estado: 0
+
+--- Tabla: ordenes_metodopago ---
+Total filas: 10000
+Nulos por columna:
+  id: 0
+  orden_id: 0
+  metodo_pago_id: 0
+  monto_pagado: 0
+
+--- Tabla: productos ---
+Total filas: 36
+Nulos por columna:
+  id: 0
+  nombre: 0
+  descripcion: 0
+  precio: 0
+  stock: 0
+  categoria_id: 0
+
+--- Tabla: resenas_productos ---
+Total filas: 7172
+Nulos por columna:
+  id: 0
+  usuario_id: 0
+  producto_id: 0
+  calificacion: 0
+  comentario: 0
+  fecha: 0
+
+--- Tabla: subcategorias ---
+Total filas: 41
+Nulos por columna:
+  id: 0
+  nombre: 0
+  categoria_id: 0
+

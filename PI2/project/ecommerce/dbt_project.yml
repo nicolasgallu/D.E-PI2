@@ -1,0 +1,26 @@
+name: 'ecommerce'
+version: '1.0.0'
+profile: 'ecommerce'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  ecommerce:
+    stg:
+      +schema: stg_schema        # staging
+    int:
+      +schema: int_schema        # intermedias
+    marts:
+      +schema: marts_schema      # hechos y dims
+
+snapshots:
+  +schema: snapshots_schema      # snapshots SCD
